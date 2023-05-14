@@ -33,6 +33,16 @@ int Unit::get_y(void)
     return y;
 }
 
+std::string Unit::denote(void)
+{
+    return std::string(1, whose) + " " +
+           std::string(1, letter) + " " +
+           std::to_string(id) + " " +
+           std::to_string(x) + " " +
+           std::to_string(y) + " " +
+           std::to_string(hit_points);
+}
+
 Base::Base(int _id,
            int _x,
            int _y,
@@ -70,14 +80,4 @@ Unit::Unit(int _id,
                               letter(_letter),
                               hit_points(_hit_points)
 {
-}
-
-std::string Unit::denote(void)
-{
-    return std::string(1, whose) + " " +
-           std::string(1, letter) + " " +
-           std::to_string(id) + " " +
-           std::to_string(x) + " " +
-           std::to_string(y) + " " +
-           std::to_string(hit_points);
 }
