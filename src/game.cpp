@@ -56,6 +56,20 @@ Game::Game(
     status_file.close();
 }
 
+Game::Game(const Game &obj)
+{
+    time_limit = obj.time_limit;
+    money = obj.money;
+
+    my_base = std::make_unique<Base>(Base(*(obj.my_base)));
+    enemy_base = std::make_unique<Base>(Base(*(obj.enemy_base)));
+    map = std::vector<std::vector<char>>(obj.map);
+    units = std::vector<std::shared_ptr<Unit>>(obj.units);
+    X = obj.X;
+    Y = obj.Y;
+    orders_filename = std::string(obj.orders_filename);
+}
+
 Game::~Game()
 {
     my_base.reset();

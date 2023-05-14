@@ -32,6 +32,7 @@ public:
          char _letter,
          int _hit_points);
 
+    Unit(const Unit &obj) = default; // copy constructor
     virtual ~Unit()
     {
     }
@@ -54,7 +55,7 @@ public:
          char _letter,
          int _hit_points,
          char _produced_unit_letter);
-
+    Base(const Base &obj) = default; // copy constructor
     std::string denote(void);
 };
 

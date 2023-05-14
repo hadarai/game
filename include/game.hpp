@@ -30,10 +30,12 @@ public:
         std::string map_filename,
         std::string status_filename,
         std::string orders_filename,
-        int time_limit);
-    ~Game();
+        int time_limit);   // constructor
+    Game(const Game &obj); // copy constructor
+    ~Game();               // destructor
 
     void print(void);
+    std::vector<Game> generate_my_legal_moves(void);
 };
 
 #endif
