@@ -96,4 +96,70 @@ void Game::print(void)
     }
 }
 
+std::vector<Game> Game::generate_my_legal_moves(void)
+{
+    std::vector<Game> games;
+
+    for (char unit_letter : available_unit_letters) // for each unit that base produces
+    {
+        for (std::shared_ptr<Unit> u : my_units) // for each my unit make a move
+        {
+            Game game_instance(*this); // this probably should be a pointer, so I can make a return
+            for (int i = 0; i < X; i++)
+            {
+                for (int j = 0; j < Y; j++)
+                    if ((*u).field_in_move_distance(i, j))
+                    {
+                        if ([&](void)
+                            {
+                                // check if nobody else stands here
+                            for (std::shared_ptr<Unit> u : game_instance.enemy_units) // check if none of my units stands here
+                            {
+                                
+                                if ((*u).does_it_stand_here(i, j))
+                                {
+                                    // enemy unit stands there - abort movement
+                                    return false;
+                                }
+                            }
+                            for (std::shared_ptr<Unit> u : game_instance.my_units) // check if none of my units stands here
+                            {
+                                if ((*u).does_it_stand_here(i, j))
+                                {
+                                    return false;
+                                    // my unit stands there - abort movement
+                                }
+                            }
+                            return true; }())
+                        {
+                            // make a move
+                            (*u).move_to(i, j);
+                            games.push_back(game_instance);
+                        }
+                    }
+            }
+        }
+        for (std::shared_ptr<Unit> me : my_units) // for each my unit make an attack
+        {
+            Game game_instance(*this);
+
+            for (std::shared_ptr<Unit> enemy : game_instance.enemy_units) // try to attack every enemy
+            {
+                // check if an enemy unit is in attack range
+                if ((*me).field_in_attack_range((*enemy).get_x(), (*enemy).get_y()))
+                {
+                    // make an attack
+                    game_instance.hit_a_unit(*me, *enemy); // this function also kills the enemy
+                    games.push_back(game_instance);
+                }
+            }
+        }
+    }
+    return games;
+}
+
+void Game::hit_a_unit(Unit unit, Unit enemy)
+{
+    // TODO
+    // remember to remove enemy from enemies if he's dead
 }

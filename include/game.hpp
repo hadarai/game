@@ -9,6 +9,9 @@
 #include "units.hpp"
 #include <memory>
 
+#define NUMBER_OF_UNITS 7
+const std::array<char, NUMBER_OF_UNITS> available_unit_letters = {'K', 'S', 'A', 'P', 'C', 'R', 'W'};
+
 class Game
 {
 private:
@@ -37,6 +40,7 @@ public:
 
     void print(void);
     std::vector<Game> generate_my_legal_moves(void);
+    void hit_a_unit(Unit unit, Unit enemy);
 };
 
 #endif
