@@ -1,5 +1,38 @@
 #include "units.hpp"
 
+bool Unit::field_in_circle(int _x, int _y, int _r)
+{
+    return abs(x - _x) + abs(y - _y);
+}
+
+bool Unit::field_in_move_distance(int _x, int _y)
+{
+    return field_in_circle(_x, _y, speed);
+}
+bool Unit::field_in_attack_range(int _x, int _y)
+{
+    return field_in_circle(_x, _y, range);
+}
+
+void Unit::move_to(int _x, int _y)
+{
+    x = _x;
+    y = _y;
+}
+
+bool Unit::does_it_stand_here(int _x, int _y)
+{
+    return x == _x && y == _y;
+}
+int Unit::get_x(void)
+{
+    return x;
+}
+int Unit::get_y(void)
+{
+    return y;
+}
+
 Base::Base(int _id,
            int _x,
            int _y,
