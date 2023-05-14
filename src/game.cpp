@@ -38,11 +38,9 @@ Game::Game(
 
     while (status_file >> whose >> type >> id >> x >> y >> hit_points)
     {
-        // printf("I read: %c %c %d %d %d %d\n", whose, type, id, x, y, hit_points);
         if (type == 'B')
         {
             status_file >> produces;
-            // printf("I produce %c\n", produces);
             if (whose == MY_UNIT)
                 my_base = std::make_unique<Base>(Base(id, x, y, whose, type, hit_points, produces));
             else

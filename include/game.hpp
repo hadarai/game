@@ -14,9 +14,6 @@ class Game
 private:
     int time_limit;
     int money;
-    // Unit currently_produced;
-    // Base *my_base;
-    // Base *enemy_base;
     std::unique_ptr<Base> my_base;
     std::unique_ptr<Base> enemy_base;
 
@@ -33,8 +30,8 @@ public:
         std::string map_filename,
         std::string status_filename,
         std::string orders_filename,
-        int time_limit); // constructor
-    ~Game();             // destructor
+        int time_limit);
+    ~Game();
 
     void print(void);
 };
