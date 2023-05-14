@@ -19,7 +19,8 @@ private:
 
     std::vector<std::vector<char>>
         map;
-    std::vector<std::shared_ptr<Unit>> units;
+    std::vector<std::shared_ptr<Unit>> my_units;
+    std::vector<std::shared_ptr<Unit>> enemy_units;
 
 public:
     int X;

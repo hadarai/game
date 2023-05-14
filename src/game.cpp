@@ -38,21 +38,17 @@ Game::Game(
 
     while (status_file >> whose >> type >> id >> x >> y >> hit_points)
     {
-        if (type == 'B')
-        {
-            status_file >> produces;
-            if (whose == MY_UNIT)
-                my_base = std::make_unique<Base>(Base(id, x, y, whose, type, hit_points, produces));
-            else
-                enemy_base = std::make_unique<Base>(Base(id, x, y, whose, type, hit_points, produces));
-        }
-        else
-        {
-            units.push_back(
+        if (type != 'B' && whose == MY_UNIT)
+            my_units.push_back(
                 std::make_unique<Unit>(Unit(id, x, y, whose, type, hit_points)));
-        }
+        else if (type != 'B' && whose == ENEMY_UNIT)
+            enemy_units.push_back(
+                std::make_unique<Unit>(Unit(id, x, y, whose, type, hit_points)));
+        else if (type == 'B' && whose == MY_UNIT)
+            my_base = std::make_unique<Base>(Base(id, x, y, whose, type, hit_points, produces));
+        else
+            enemy_base = std::make_unique<Base>(Base(id, x, y, whose, type, hit_points, produces));
     }
-
     status_file.close();
 }
 
@@ -64,7 +60,9 @@ Game::Game(const Game &obj)
     my_base = std::make_unique<Base>(Base(*(obj.my_base)));
     enemy_base = std::make_unique<Base>(Base(*(obj.enemy_base)));
     map = std::vector<std::vector<char>>(obj.map);
-    units = std::vector<std::shared_ptr<Unit>>(obj.units);
+    // ! How vector of pointers is copied!?
+    my_units = std::vector<std::shared_ptr<Unit>>(obj.my_units);
+    enemy_units = std::vector<std::shared_ptr<Unit>>(obj.enemy_units);
     X = obj.X;
     Y = obj.Y;
     orders_filename = std::string(obj.orders_filename);
@@ -88,8 +86,14 @@ void Game::print(void)
     std::cout << (*my_base).denote() << std::endl;
     std::cout << (*enemy_base).denote() << std::endl;
 
-    for (std::shared_ptr<Unit> u : units)
+    for (std::shared_ptr<Unit> u : my_units)
     {
         std::cout << (*u).denote() << std ::endl;
     }
+    for (std::shared_ptr<Unit> u : enemy_units)
+    {
+        std::cout << (*u).denote() << std ::endl;
+    }
+}
+
 }
