@@ -33,6 +33,11 @@ int Unit::get_y(void)
     return y;
 }
 
+char Unit::get_letter(void)
+{
+    return letter;
+}
+
 std::string Unit::denote(void)
 {
     return std::string(1, whose) + " " +

@@ -40,13 +40,14 @@ public:
     bool does_it_stand_here(int _x, int _y);
     int get_x(void);
     int get_y(void);
+    char get_letter(void);
 
     bool hit(int damage);
 
     std::string denote(void);
 };
 
-class Base : private Unit
+class Base : public Unit
 {
 public:
     const char letter = 'B';

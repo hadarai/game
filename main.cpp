@@ -23,5 +23,7 @@ int main(int argc, char *argv[])
     Game game(map_filename, status_filename, orders_filename, time_limit);
     game.print();
 
+    game.pretty_print();
+
     return 0;
 }

@@ -83,23 +83,40 @@ Game::~Game()
 
 void Game::print(void)
 {
-    std::cout << "Map:\n";
     for (std::vector<char> line : map)
     {
         for (char c : line)
-            std::cout << c;
+            std::cout << c << " ";
         std::cout << std::endl;
     }
     std::cout << (*my_base).denote() << std::endl;
     std::cout << (*enemy_base).denote() << std::endl;
-
     for (std::shared_ptr<Unit> u : my_units)
-    {
         std::cout << (*u).denote() << std ::endl;
-    }
     for (std::shared_ptr<Unit> u : enemy_units)
-    {
         std::cout << (*u).denote() << std ::endl;
+}
+
+void Game::pretty_print(void)
+{
+    for (int j = 0; j < Y; j++)
+    {
+        for (int i = 0; i < X; i++)
+        {
+            char this_char = map[j][i];
+            for (std::shared_ptr<Unit> u : my_units)
+            {
+                if ((*u).get_x() == i && (*u).get_y() == j)
+                    this_char = (*u).get_letter();
+            }
+            for (std::shared_ptr<Unit> u : enemy_units)
+            {
+                if ((*u).get_x() == i && (*u).get_y() == j)
+                    this_char = tolower((*u).get_letter());
+            }
+            std::cout << this_char << " ";
+        }
+        std::cout << std::endl;
     }
 }
 

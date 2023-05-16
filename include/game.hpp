@@ -6,8 +6,10 @@
 #include <fstream>
 #include <iostream>
 #include <string>
-#include "units.hpp"
 #include <memory>
+#include <cctype>
+
+#include "units.hpp"
 
 #define NUMBER_OF_UNITS 7
 const std::array<char, NUMBER_OF_UNITS> available_unit_letters = {'K', 'S', 'A', 'P', 'C', 'R', 'W'};
@@ -39,6 +41,8 @@ public:
     ~Game();               // destructor
 
     void print(void);
+    void pretty_print(void);
+
     std::vector<Game> generate_my_legal_moves(void);
     void hit_a_unit(Unit unit, Unit enemy);
 };
