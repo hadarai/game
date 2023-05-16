@@ -1,5 +1,7 @@
 #include <game.hpp>
 
+const std::map<std::pair<char, char>, int> Game::calculate_damage = Game::create_damages();
+
 Game::Game(
     std::string map_filename,
     std::string status_filename,
