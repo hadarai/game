@@ -38,16 +38,23 @@ Game::Game(
 
     while (status_file >> whose >> type >> id >> x >> y >> hit_points)
     {
-        if (type != 'B' && whose == MY_UNIT)
-            my_units.push_back(
-                std::make_unique<Unit>(Unit(id, x, y, whose, type, hit_points)));
-        else if (type != 'B' && whose == ENEMY_UNIT)
-            enemy_units.push_back(
-                std::make_unique<Unit>(Unit(id, x, y, whose, type, hit_points)));
-        else if (type == 'B' && whose == MY_UNIT)
-            my_base = std::make_unique<Base>(Base(id, x, y, whose, type, hit_points, produces));
-        else
-            enemy_base = std::make_unique<Base>(Base(id, x, y, whose, type, hit_points, produces));
+        if (type != 'B')
+        {
+            if (whose == MY_UNIT)
+                my_units.push_back(
+                    std::make_unique<Unit>(Unit(id, x, y, whose, type, hit_points)));
+            else
+                enemy_units.push_back(
+                    std::make_unique<Unit>(Unit(id, x, y, whose, type, hit_points)));
+        }
+        else if (type == 'B')
+        {
+            status_file >> produces;
+            if (whose == MY_UNIT)
+                my_base = std::make_unique<Base>(Base(id, x, y, whose, type, hit_points, produces));
+            else
+                enemy_base = std::make_unique<Base>(Base(id, x, y, whose, type, hit_points, produces));
+        }
     }
     status_file.close();
 }
