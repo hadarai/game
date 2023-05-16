@@ -25,5 +25,11 @@ int main(int argc, char *argv[])
 
     game.pretty_print();
 
+    std::vector<Order> next_moves = game.generate_legal_moves();
+    for (Order move : next_moves)
+    {
+        std::cout << move.denote() << std::endl;
+    }
+
     return 0;
 }

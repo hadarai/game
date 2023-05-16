@@ -186,6 +186,29 @@ std::vector<Game> Game::generate_my_legal_moves(void)
 
 void Game::hit_a_unit(Unit unit, Unit enemy)
 {
-    // TODO
-    // remember to remove enemy from enemies if he's dead
+    auto it = calculate_damage.find(std::pair(unit.get_letter(), enemy.get_letter()));
+
+    if (it == calculate_damage.end())
+    {
+        // TODO throw an exception
+        std::cerr << "Element not found";
+    }
+    else
+    {
+        // found
+        std::cout << "damage dealt " << it->second << std::endl;
+
+        if (enemy.deal(it->second) < 0)
+        {
+            // kill the unit
+            std::cout
+                << "Unit has been killed" << std::endl;
+            // remove enemy from enemies if he's dead
+            enemy_units.erase(
+                std::remove(enemy_units.begin(),
+                            enemy_units.end(),
+                            std::shared_ptr<Unit>(&enemy)),
+                enemy_units.end());
+        }
+    }
 }

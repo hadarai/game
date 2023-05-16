@@ -8,8 +8,12 @@
 #include <string>
 #include <memory>
 #include <cctype>
+#include <map>
+#include <algorithm>
 
 #include "unit.hpp"
+#include "base.hpp"
+#include "order.hpp"
 
 #define NUMBER_OF_UNITS 7
 const std::array<char, NUMBER_OF_UNITS> available_unit_letters = {'K', 'S', 'A', 'P', 'C', 'R', 'W'};
