@@ -1,5 +1,5 @@
-#ifndef UNITS_H
-#define UNITS_H
+#ifndef UNIT_H
+#define UNIT_H
 
 #include <iostream>
 #include <string>
@@ -38,32 +38,18 @@ public:
     bool field_in_attack_range(int _x, int _y);
     void move_to(int _x, int _y);
     bool does_it_stand_here(int _x, int _y);
+
+    int get_id(void);
     int get_x(void);
     int get_y(void);
     char get_letter(void);
 
-    bool hit(int damage);
+    // here's better getter and setter
+    // int &x() { return x; }
+    // const int &x() const { return x; }
 
-    std::string denote(void);
-};
+    bool deal(int damage);
 
-class Base : public Unit
-{
-public:
-    const char letter = 'B';
-    const int max_hit_points = 200;
-    char produced_unit_letter;
-    int hit_points;
-
-    Base(int _id,
-         int _x,
-         int _y,
-         char _whose,
-         char _letter,
-         int _hit_points,
-         char _produced_unit_letter);
-    Base(const Base &obj) = default; // copy constructor
-    ~Base() = default;
     std::string denote(void);
 };
 

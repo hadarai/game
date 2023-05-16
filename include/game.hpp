@@ -9,7 +9,7 @@
 #include <memory>
 #include <cctype>
 
-#include "units.hpp"
+#include "unit.hpp"
 
 #define NUMBER_OF_UNITS 7
 const std::array<char, NUMBER_OF_UNITS> available_unit_letters = {'K', 'S', 'A', 'P', 'C', 'R', 'W'};
