@@ -28,10 +28,8 @@ private:
 
     std::vector<std::vector<char>>
         map;
-    // std::vector<std::shared_ptr<Unit>> my_units;
-    // std::vector<std::shared_ptr<Unit>> enemy_units;
-    std::map<int, std::shared_ptr<Unit>> my_units;    // search by id
-    std::map<int, std::shared_ptr<Unit>> enemy_units; // search by id
+    std::map<int, std::shared_ptr<Unit>> my_units;
+    std::map<int, std::shared_ptr<Unit>> enemy_units;
 
     static std::map<std::pair<char, char>, int> create_damages()
     {
@@ -111,9 +109,9 @@ public:
         std::string map_filename,
         std::string status_filename,
         std::string orders_filename,
-        int time_limit);   // constructor
-    Game(const Game &obj); // copy constructor
-    ~Game();               // destructor
+        int time_limit);
+    Game(const Game &obj);
+    ~Game();
 
     void print(void);
     void pretty_print(void);
@@ -125,7 +123,6 @@ public:
     void hit_a_unit(Unit unit, Unit enemy);
 
     void save_orders_to_file(std::string orders_filename, std::vector<Order> orders);
-
 };
 
 #endif

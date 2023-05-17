@@ -20,7 +20,7 @@ public:
          char _letter,
          int _hit_points,
          char _produced_unit_letter);
-    Base(const Base &obj) = default; // copy constructor
+    Base(const Base &obj) = default;
     ~Base() = default;
     std::string denote(void);
     void produce_an_unit(char letter);

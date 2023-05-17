@@ -8,7 +8,7 @@ int main(int argc, char *argv[])
 {
     if (argc != 6)
     {
-        std::cout << "Wrong amount of parameters!";
+        std::cout << "Wrong amount of parameters!\n";
         std::cout << "Example usage: \n";
         std::cout << "./ <nazwa programu gracza> [M | G] mapa.txt status.txt rozkazy.txt [limit_czasowy]\n";
         return 0;
@@ -21,16 +21,13 @@ int main(int argc, char *argv[])
 
     if (role == 'M')
     {
+        // I'm the mediator
         Mediator mediator(std::string(argv[0]), map_filename, status_filename, orders_filename);
         mediator.loop();
-
-        // I'm the mediator
     }
     else
     {
         // I'm a player
-        // std::cout << "Parsed:\nrola: " << role << "\nmapa:" << map_filename << "\nstatus: " << status_filename << "\nrozkazy: " << orders_filename << "\nlimit czasu: " << time_limit << "\n";
-
         Game game(map_filename, status_filename, orders_filename, time_limit);
         game.pretty_print();
 

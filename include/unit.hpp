@@ -32,7 +32,7 @@ public:
          char _letter,
          int _hit_points);
 
-    Unit(const Unit &obj) = default; // copy constructor
+    Unit(const Unit &obj) = default;
     ~Unit() = default;
     bool field_in_move_distance(int _x, int _y);
     bool field_in_attack_range(int _x, int _y);
@@ -43,10 +43,6 @@ public:
     int get_x(void);
     int get_y(void);
     char get_letter(void);
-
-    // here's better getter and setter
-    // int &x() { return x; }
-    // const int &x() const { return x; }
 
     bool deal(int damage);
 

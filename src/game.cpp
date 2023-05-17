@@ -69,7 +69,6 @@ Game::Game(const Game &obj)
     my_base = std::make_unique<Base>(Base(*(obj.my_base)));
     enemy_base = std::make_unique<Base>(Base(*(obj.enemy_base)));
     map = std::vector<std::vector<char>>(obj.map);
-    // ! How vector of pointers is copied!?
     my_units = std::map<int, std::shared_ptr<Unit>>(obj.my_units);
     enemy_units = std::map<int, std::shared_ptr<Unit>>(obj.enemy_units);
     X = obj.X;
@@ -124,9 +123,7 @@ void Game::pretty_print(void)
 
 std::vector<Order> Game::generate_legal_orders(void)
 {
-
-
-    // todo generate really simple move for a unit
+    // TODO generate all possible orders
     std::vector<Order> orders;
 
     Order o;
@@ -155,12 +152,14 @@ void Game::hit_a_unit(Unit unit, Unit enemy)
         if (enemy.deal(it->second) < 0)
         {
             // kill the unit
-            std::cout
+            std::cerr
                 << "Unit has been killed" << std::endl;
             // remove enemy from enemies if he's dead
             enemy_units.erase(enemy.get_id());
         }
     }
+}
+
 void Game::make_a_move(int id, int x, int y)
 {
     // check if nobody else stands here
@@ -194,3 +193,4 @@ void Game::execute_an_order(Order order)
         break;
     }
 }
+

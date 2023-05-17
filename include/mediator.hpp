@@ -8,7 +8,6 @@
 class Mediator
 {
 private:
-    /* data */
     const uint MAX_TURNS = 1000;
     std::string
         executable_filename,
