@@ -23,6 +23,7 @@ public:
     Base(const Base &obj) = default; // copy constructor
     ~Base() = default;
     std::string denote(void);
+    void produce_an_unit(char letter);
 };
 
 #endif

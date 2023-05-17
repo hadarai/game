@@ -22,3 +22,11 @@ std::string Base::denote(void)
     return Unit::denote() + " " +
            std::string(1, produced_unit_letter);
 }
+
+void Base::produce_an_unit(char letter)
+{
+    if (produced_unit_letter != 0)
+        throw "Unit already produced!\n";
+    else
+        produced_unit_letter = letter;
+}
