@@ -123,6 +123,9 @@ public:
     void execute_an_order(Order order);
     void make_a_move(int id, int x, int y);
     void hit_a_unit(Unit unit, Unit enemy);
+
+    void save_orders_to_file(std::string orders_filename, std::vector<Order> orders);
+
 };
 
 #endif
