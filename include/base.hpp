@@ -10,7 +10,7 @@ class Base : public Unit
 public:
     const char letter = 'B';
     const int max_hit_points = 200;
-    char produced_unit_letter;
+    char produced_unit_letter = 0;
     int hit_points;
 
     Base(int _id,

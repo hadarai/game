@@ -10,7 +10,7 @@ struct move_t
 };
 struct attack_t
 {
-    Unit *prey;
+    int prey_id;
 };
 struct build_t
 {

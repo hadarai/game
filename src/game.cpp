@@ -111,6 +111,7 @@ void Game::pretty_print(void)
                 if (u->get_x() == i && u->get_y() == j)
                     this_char = u->get_letter();
             }
+            for (auto const &[id, u] : enemy_units)
             {
                 if (u->get_x() == i && u->get_y() == j)
                     this_char = tolower(u->get_letter());
@@ -121,66 +122,23 @@ void Game::pretty_print(void)
     }
 }
 
-std::vector<Game> Game::generate_my_legal_moves(void)
+std::vector<Order> Game::generate_legal_orders(void)
 {
-    std::vector<Game> games;
 
-    for (char unit_letter : available_unit_letters) // for each unit that base produces
-    {
-        for (std::shared_ptr<Unit> u : my_units) // for each my unit make a move
-        {
-            Game game_instance(*this); // this probably should be a pointer, so I can make a return
-            for (int i = 0; i < X; i++)
-            {
-                for (int j = 0; j < Y; j++)
-                    if ((*u).field_in_move_distance(i, j))
-                    {
-                        if ([&](void)
-                            {
-                                // check if nobody else stands here
-                            for (std::shared_ptr<Unit> u : game_instance.enemy_units) // check if none of my units stands here
-                            {
-                                
-                                if ((*u).does_it_stand_here(i, j))
-                                {
-                                    // enemy unit stands there - abort movement
-                                    return false;
-                                }
-                            }
-                            for (std::shared_ptr<Unit> u : game_instance.my_units) // check if none of my units stands here
-                            {
-                                if ((*u).does_it_stand_here(i, j))
-                                {
-                                    return false;
-                                    // my unit stands there - abort movement
-                                }
-                            }
-                            return true; }())
-                        {
-                            // make a move
-                            (*u).move_to(i, j);
-                            games.push_back(game_instance);
-                        }
-                    }
-            }
-        }
-        for (std::shared_ptr<Unit> me : my_units) // for each my unit make an attack
-        {
-            Game game_instance(*this);
 
-            for (std::shared_ptr<Unit> enemy : game_instance.enemy_units) // try to attack every enemy
-            {
-                // check if an enemy unit is in attack range
-                if ((*me).field_in_attack_range((*enemy).get_x(), (*enemy).get_y()))
-                {
-                    // make an attack
-                    game_instance.hit_a_unit(*me, *enemy); // this function also kills the enemy
-                    games.push_back(game_instance);
-                }
-            }
-        }
-    }
-    return games;
+    // todo generate really simple move for a unit
+    std::vector<Order> orders;
+
+    Order o;
+
+    o.unit_id = my_units.begin()->first;
+    o.action = 'M';
+    o.parameters.move.x = my_units.begin()->second->get_x() + 1;
+    o.parameters.move.y = my_units.begin()->second->get_y() + 1;
+    std::cout << my_base->produced_unit_letter << std::endl;
+
+    orders.push_back(o);
+    return orders;
 }
 
 void Game::hit_a_unit(Unit unit, Unit enemy)
@@ -188,10 +146,7 @@ void Game::hit_a_unit(Unit unit, Unit enemy)
     auto it = calculate_damage.find(std::pair(unit.get_letter(), enemy.get_letter()));
 
     if (it == calculate_damage.end())
-    {
-        // TODO throw an exception
-        std::cerr << "Element not found";
-    }
+        throw "No such encounter!\n";
     else
     {
         // found
@@ -205,5 +160,37 @@ void Game::hit_a_unit(Unit unit, Unit enemy)
             // remove enemy from enemies if he's dead
             enemy_units.erase(enemy.get_id());
         }
+    }
+void Game::make_a_move(int id, int x, int y)
+{
+    // check if nobody else stands here
+
+    for (auto const &[i, u] : enemy_units) // check if none of my units stands here
+        if (u->does_it_stand_here(x, y))
+            // enemy unit stands there - abort movement
+            throw "Enemy unit already stands there. Abort move!\n";
+    for (auto const &[i, u] : my_units) // check if none of my units stands here
+        if (u->does_it_stand_here(x, y))
+            throw "My unit already stands there. Abort move!\n";
+    // check with base and obstacles
+    if (map[y][x] != '0')
+        throw "Base or obstacle already there! Abort move!\n";
+
+    my_units[id]->move_to(x, y);
+}
+
+void Game::execute_an_order(Order order)
+{
+    switch (order.action)
+    {
+    case 'M':
+        make_a_move(order.unit_id, order.parameters.move.x, order.parameters.move.y);
+        break;
+    case 'A':
+        hit_a_unit(*(my_units[order.unit_id]), *(enemy_units[order.parameters.attack.prey_id]));
+        break;
+    case 'B':
+        my_base->produce_an_unit(order.parameters.build.letter);
+        break;
     }
 }

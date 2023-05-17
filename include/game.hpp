@@ -28,8 +28,10 @@ private:
 
     std::vector<std::vector<char>>
         map;
-    std::vector<std::shared_ptr<Unit>> my_units;
-    std::vector<std::shared_ptr<Unit>> enemy_units;
+    // std::vector<std::shared_ptr<Unit>> my_units;
+    // std::vector<std::shared_ptr<Unit>> enemy_units;
+    std::map<int, std::shared_ptr<Unit>> my_units;    // search by id
+    std::map<int, std::shared_ptr<Unit>> enemy_units; // search by id
 
     static std::map<std::pair<char, char>, int> create_damages()
     {
@@ -116,7 +118,10 @@ public:
     void print(void);
     void pretty_print(void);
 
-    std::vector<Game> generate_my_legal_moves(void);
+    std::vector<Order> generate_legal_orders(void);
+
+    void execute_an_order(Order order);
+    void make_a_move(int id, int x, int y);
     void hit_a_unit(Unit unit, Unit enemy);
 };
 
