@@ -43,11 +43,11 @@ Game::Game(
         if (type != 'B')
         {
             if (whose == MY_UNIT)
-                my_units.push_back(
-                    std::make_unique<Unit>(Unit(id, x, y, whose, type, hit_points)));
+                my_units.insert({id,
+                                 std::make_unique<Unit>(Unit(id, x, y, whose, type, hit_points))});
             else
-                enemy_units.push_back(
-                    std::make_unique<Unit>(Unit(id, x, y, whose, type, hit_points)));
+                enemy_units.insert({id,
+                                    std::make_unique<Unit>(Unit(id, x, y, whose, type, hit_points))});
         }
         else if (type == 'B')
         {
@@ -70,8 +70,8 @@ Game::Game(const Game &obj)
     enemy_base = std::make_unique<Base>(Base(*(obj.enemy_base)));
     map = std::vector<std::vector<char>>(obj.map);
     // ! How vector of pointers is copied!?
-    my_units = std::vector<std::shared_ptr<Unit>>(obj.my_units);
-    enemy_units = std::vector<std::shared_ptr<Unit>>(obj.enemy_units);
+    my_units = std::map<int, std::shared_ptr<Unit>>(obj.my_units);
+    enemy_units = std::map<int, std::shared_ptr<Unit>>(obj.enemy_units);
     X = obj.X;
     Y = obj.Y;
     orders_filename = std::string(obj.orders_filename);
@@ -93,10 +93,10 @@ void Game::print(void)
     }
     std::cout << (*my_base).denote() << std::endl;
     std::cout << (*enemy_base).denote() << std::endl;
-    for (std::shared_ptr<Unit> u : my_units)
-        std::cout << (*u).denote() << std ::endl;
-    for (std::shared_ptr<Unit> u : enemy_units)
-        std::cout << (*u).denote() << std ::endl;
+    for (auto const &[i, u] : my_units)
+        std::cout << u->denote() << std ::endl;
+    for (auto const &[i, u] : enemy_units)
+        std::cout << u->denote() << std ::endl;
 }
 
 void Game::pretty_print(void)
@@ -106,15 +106,14 @@ void Game::pretty_print(void)
         for (int i = 0; i < X; i++)
         {
             char this_char = map[j][i];
-            for (std::shared_ptr<Unit> u : my_units)
+            for (auto const &[id, u] : my_units)
             {
-                if ((*u).get_x() == i && (*u).get_y() == j)
-                    this_char = (*u).get_letter();
+                if (u->get_x() == i && u->get_y() == j)
+                    this_char = u->get_letter();
             }
-            for (std::shared_ptr<Unit> u : enemy_units)
             {
-                if ((*u).get_x() == i && (*u).get_y() == j)
-                    this_char = tolower((*u).get_letter());
+                if (u->get_x() == i && u->get_y() == j)
+                    this_char = tolower(u->get_letter());
             }
             std::cout << this_char << " ";
         }
@@ -204,11 +203,7 @@ void Game::hit_a_unit(Unit unit, Unit enemy)
             std::cout
                 << "Unit has been killed" << std::endl;
             // remove enemy from enemies if he's dead
-            enemy_units.erase(
-                std::remove(enemy_units.begin(),
-                            enemy_units.end(),
-                            std::shared_ptr<Unit>(&enemy)),
-                enemy_units.end());
+            enemy_units.erase(enemy.get_id());
         }
     }
 }

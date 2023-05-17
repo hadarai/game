@@ -9,7 +9,7 @@ std::string Order::denote(void)
         output.append(std::to_string(parameters.move.x) + " " + std::to_string(parameters.move.y));
         break;
     case 'A':
-        output.append(std::to_string(parameters.attack.prey->get_id()));
+        output.append(std::to_string(parameters.attack.prey_id));
         break;
     case 'B':
         output.append(std::to_string(parameters.build.letter));
