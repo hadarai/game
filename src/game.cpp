@@ -194,3 +194,13 @@ void Game::execute_an_order(Order order)
     }
 }
 
+void Game::save_orders_to_file(std::string orders_filename, std::vector<Order> orders)
+{
+    std::ofstream orders_file;
+    orders_file.open(orders_filename);
+    for (Order o : orders)
+    {
+        orders_file << o.denote();
+    }
+    orders_file.close();
+}
