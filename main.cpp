@@ -8,7 +8,6 @@ int main(int argc, char *argv[])
 {
     std::string game_filename, map_filename, status_filename, orders_filename;
     int time_limit;
-
 #ifdef M
     // I'm the mediator
     if (argc != 6)
