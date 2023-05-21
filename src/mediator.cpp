@@ -12,7 +12,7 @@ Mediator::Mediator(std::string _executable_filename,
 
 void Mediator::loop(void)
 {
-    std::string command = executable_filename + " G " + map_filename + " " + status_filename + " " + orders_filename + " 10";
+    std::string command = executable_filename + " " + map_filename + " " + status_filename + " " + orders_filename + " 10";
     std::cout << "Executing command:\n"
               << command << "\n";
     system(command.c_str());

@@ -18,8 +18,10 @@ cmake  ..
 make
 ```
 
+Compilation creates two executable files. One for the mediator, other for the player.   
+
 ## Example usage
 
 ```bash
-./game M /home/max/Documents/game/test/data/mapa.txt /home/max/Documents/game/test/data/status.txt /home/max/Documents/game/test/data/rozkazy.txt 10
+./build/mediator /build/game test/data/mapa.txt test/data/status.txt test/data/rozkazy.txt 10
 ```
